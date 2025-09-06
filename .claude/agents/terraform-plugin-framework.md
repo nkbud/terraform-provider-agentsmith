@@ -61,3 +61,36 @@ Define the provider configure method.
 This reads the Terraform configuration using the data model or checks environment variables if data is missing from the configuration. It raises errors if any necessary client configuration is missing. The configured client is then created and made available for data sources and resources.
 Verify configuration behaviors.
 This ensures the expected provider configuration behaviors.
+
+Implement provider schema
+The Plugin Framework uses a provider's Schema method to define the acceptable configuration attribute names and types. The HashiCups client needs a host, username, and password to be properly configured. The Terraform Plugin Framework types package contains schema and data model types that can work with Terraform's null, unknown, or known values.
+
+Implement provider data model
+The Terraform Plugin Framework uses Go struct types with tfsdk struct field tags to map schema definitions into Go types with the actual data. The types within the struct must align with the types in the schema.
+
+Implement temporary data source
+
+Provider configuration only occurs if there is a valid data source or resource supported by the provider and used in a Terraform configuration. For now, create a temporary data source implementation so you can verify the provider configuration behaviors. Later tutorials will guide you through the concepts and implementation details of real data sources and resources.
+
+In this tutorial, you will implement a data source to read the list of coffees from the HashiCups API and save it in Terraform’s state. To do this, you will:
+
+Define the initial data source type.
+This prepares the data source to be added to the provider.
+Add data source to provider.
+This enables the data source for testing and Terraform configuration usage.
+Implement the HashiCups client in the data source.
+This retrieves the configured HashiCups client from the provider and makes it available for data source operations.
+Define the data source schema.
+This prepares the data source to set Terraform state with the list of coffees.
+Define the data source data model.
+This models the data source schema as a Go type so the data is accessible for other Go code.
+Define the data source read logic.
+This handles calling the HashiCups API using the configured client and setting the Terraform state with the data.
+Verify data source behavior.
+This ensures the expected data source behavior.
+
+This interface requires the following:
+
+Metadata method. This defines the data source type name, which is how the data source is referred to in Terraform configurations.
+Schema method. This defines the schema for any data source configuration and state data.
+Read method. This defines the logic which sets the Terraform state for the data source.
