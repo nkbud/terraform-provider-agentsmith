@@ -49,10 +49,11 @@ func (p *agentsmithProvider) Metadata(_ context.Context, _ provider.MetadataRequ
 // Schema defines the provider-level schema for configuration data.
 func (p *agentsmithProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description: "The Agentsmith provider allows for the declarative management of configuration for various AI coding assistants, including Claude, Codex, and Gemini.",
 		Attributes: map[string]schema.Attribute{
 			"workdir": schema.StringAttribute{
 				Optional:    true,
-				Description: "The workdir you want to manage",
+				Description: "The working directory for the provider to operate in. This is the root directory for any project-specific configurations (e.g., `.claude/`, `.codex/`, `.gemini/`). If not set, it defaults to the user's home directory. This can also be set with the AGENTSMITH_WORKDIR environment variable.",
 			},
 		},
 	}
@@ -118,10 +119,22 @@ func (p *agentsmithProvider) Configure(ctx context.Context, req provider.Configu
 func (p *agentsmithProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewClaudeDataSource,
+		NewCodexDataSource,
+		NewGeminiDataSource,
+		NewMcpStdioDataSource,
+		NewMcpRemoteDataSource,
 	}
 }
 
 // Resources defines the resources implemented in the provider.
 func (p *agentsmithProvider) Resources(_ context.Context) []func() resource.Resource {
-	return nil
+	return []func() resource.Resource{
+		NewGeminiSettingsFileResource,
+		NewCodexConfigResource,
+		NewClaudeSettingsResource,
+		NewClaudeGlobalConfigResource,
+		NewClaudeSubagentResource,
+		NewClaudeCommandResource,
+		NewClaudeHookResource,
+	}
 }
