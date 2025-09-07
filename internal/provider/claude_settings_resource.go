@@ -149,7 +149,7 @@ func (r *claudeSettingsResource) Schema(_ context.Context, _ resource.SchemaRequ
 				Optional:    true,
 			},
 			"hooks": schema.MapAttribute{
-				Description: "A map of custom commands to run before or after tool executions. The map key is the hook name (e.g., `PreToolUse`) and the value is another map containing the hook details (e.g., `{"Bash": "echo ..."}`).",
+				Description: "A map of custom commands to run before or after tool executions. The map key is the hook name (e.g., `PreToolUse`) and the value is another map containing the hook details.",
 				ElementType: types.MapType{ElemType: types.StringType},
 				Optional:    true,
 			},
