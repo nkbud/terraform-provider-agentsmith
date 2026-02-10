@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "artifactory.nisc.coop/nisc/agentsmith",
+		Address: "registry.terraform.io/nkbud/agentsmith",
 		Debug:   debug,
 	}
 
